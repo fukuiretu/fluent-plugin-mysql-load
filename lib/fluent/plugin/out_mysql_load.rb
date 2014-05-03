@@ -1,35 +1,89 @@
-class Fluent::MysqlLoadOutput < Fluent::BufferedOutput
-  Fluent::Plugin.register_output('mysql_load', self)
-  
-  def initialize
-    require 'mysql2'
-    super
-  end
+module Fluent
+  class MysqlLoadOutput < Fluent::BufferedOutput
+    Fluent::Plugin.register_output('mysql_load', self)
 
-  def configure(conf)
-    super
-    # @path = conf['path']
-  end
+    QUERY_TEMPLATE = "LOAD DATA LOCAL INFILE '%s' INTO TABLE %s (%s)"
 
-  def start
-    super
-    # init
-  end
+    # Define `log` method for v0.10.42 or earlier
+    unless method_defined?(:log)
+      define_method("log") { $log }
+    end
 
-  def shutdown
-    super
-    # destroy
-  end
+    def initialize
+      require 'mysql2'
+      require 'tempfile'
+      super
+    end
 
-  def format(tag, time, record)
-    [tag, time, record].to_msgpack
-  end
+    config_param :host, :string, :default => 'localhost'
+    config_param :port, :integer, :default => 3306
+    config_param :username, :string, :default => 'root'
+    config_param :password, :string, :default => nil
+    config_param :database, :string, :default => nil
+    config_param :encoding, :string, :default => 'utf8'
+    config_param :tablename, :string, :default => nil
+    config_param :columns, :string, :default => nil
 
-  def write(chunk)
-    records = []
-    chunk.msgpack_each { |record|
-      # records << record
-    }
-    # write records
+    def configure(conf)
+      super
+      if @password.nil? || @database.nil? || @tablename.nil?
+        raise Fluent::ConfigError, "password and database and tablename is required!"
+      end
+
+      if (!@columns.nil?)
+        @columns = @columns.split(",")
+      end
+    end
+
+    def start
+      super
+    end
+
+    def shutdown
+      super
+    end
+
+    def format(tag, time, record)
+      record.to_msgpack
+    end
+
+    def write(chunk)
+      tmp = Tempfile.new("loaddata")
+      keys = nil
+      chunk.msgpack_each { |record|
+        # keyの取得は初回のみ
+        if keys.nil?
+          # columnsが指定されている場合はそっちを有効にする
+          keys = @columns.nil? ? record.keys : @columns
+        end
+
+        values = []
+        keys.each{ |key|
+          values << record[key]
+        }
+
+        tmp.write values.join("\t") + "\n"
+      }
+      tmp.close
+
+      # load data infile のクエリをテンプレートから作る
+      query = QUERY_TEMPLATE % ([tmp.path, @tablename, keys.join(",")])
+
+      conn = get_connection
+      conn.query(query)
+      conn.close
+    end
+
+    private
+    def get_connection
+        Mysql2::Client.new({
+            :host => @host, 
+            :port => @port,
+            :username => @username, 
+            :password => @password, 
+            :database => @database,
+            :encoding => @encoding
+          })
+    end
   end
 end
