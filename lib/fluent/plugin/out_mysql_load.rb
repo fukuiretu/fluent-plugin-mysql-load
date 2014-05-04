@@ -20,9 +20,9 @@ module Fluent
     config_param :username, :string, :default => 'root'
     config_param :password, :string, :default => nil
     config_param :database, :string, :default => nil
-    config_param :encoding, :string, :default => 'utf8'
     config_param :tablename, :string, :default => nil
     config_param :columns, :string, :default => nil
+    config_param :encoding, :string, :default => 'utf8'
 
     def configure(conf)
       super
@@ -66,7 +66,6 @@ module Fluent
       }
       tmp.close
 
-      # load data infile のクエリをテンプレートから作る
       query = QUERY_TEMPLATE % ([tmp.path, @tablename, keys.join(",")])
 
       conn = get_connection
