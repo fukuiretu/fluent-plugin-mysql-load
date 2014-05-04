@@ -6,4 +6,4 @@ rvm:
   - 1.9.3
 
 before_script:
-  - mysql < setup_mysql.sql
+  - mysql < setup-mysql.sql
