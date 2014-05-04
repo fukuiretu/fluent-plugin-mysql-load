@@ -26,8 +26,8 @@ module Fluent
 
     def configure(conf)
       super
-      if @password.nil? || @database.nil? || @tablename.nil?
-        raise Fluent::ConfigError, "password and database and tablename is required!"
+      if @database.nil? || @tablename.nil?
+        raise Fluent::ConfigError, "database and tablename is required!"
       end
 
       if (!@columns.nil?)

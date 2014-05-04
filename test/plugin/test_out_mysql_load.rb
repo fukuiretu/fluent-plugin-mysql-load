@@ -6,7 +6,6 @@ class MysqlLoadOutputTest < Test::Unit::TestCase
   end
 
   CONFIG = %[
-    password abcdefg
     database fluentd
     tablename test
   ]
