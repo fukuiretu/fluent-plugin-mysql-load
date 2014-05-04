@@ -77,10 +77,10 @@ module Fluent
     private
     def get_connection
         Mysql2::Client.new({
-            :host => @host, 
+            :host => @host,
             :port => @port,
-            :username => @username, 
-            :password => @password, 
+            :username => @username,
+            :password => @password,
             :database => @database,
             :encoding => @encoding
           })
