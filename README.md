@@ -1,4 +1,6 @@
 # fluent-plugin-mysql-load, a plugin for [Fluentd](http://fluentd.org)
+[![Build Status](https://travis-ci.org/fukuiretu/fluent-plugin-mysql-load.svg?branch=master)](https://travis-ci.org/fukuiretu/fluent-plugin-mysql-load)
+
 # Overview
 
 "fluent-plugin-mysql-load" is a plugin fluentd.
@@ -33,13 +35,13 @@ loaddata.test: {"seq":3,"txt":"hoge3","txt2":"foo3","txt3":"bar3","createte_at":
 
 ## Out.
 ```
-  +-----+------------------+---------------------+---------------------+
-  | id  | txt              | txt2                | txt3                |
-  +-----+------------------+---------------------+---------------------+
-  |   1 | hoge             | foo                 | bar                 |
-  |   2 | hoge2            | foo2                | bar2                |
-  |   3 | hoge3            | foo3                | bar3                |
-  +-----+------------------+---------------------+---------------------+
+  +------------------+---------------------+---------------------+
+  | txt              | txt2                | txt3                |
+  +------------------+---------------------+---------------------+
+  | hoge             | foo                 | bar                 |
+  | hoge2            | foo2                | bar2                |
+  | hoge3            | foo3                | bar3                |
+  +------------------+---------------------+---------------------+
 ```
 
 # Parameters
