@@ -38,7 +38,7 @@ class MysqlLoadOutputTest < Test::Unit::TestCase
     assert_equal 'abcde', d.instance.host
     assert_equal 33306, d.instance.port
     assert_equal 'taro', d.instance.username
-    assert_equal 'pldoeudku', d.instance.password
+    assert_equal 'pldoeudk', d.instance.password
     assert_equal 'db', d.instance.database
     assert_equal 'sjis', d.instance.encoding
     assert_equal 'test', d.instance.tablename
