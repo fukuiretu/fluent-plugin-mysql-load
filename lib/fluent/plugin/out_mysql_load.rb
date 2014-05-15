@@ -21,17 +21,20 @@ module Fluent
     config_param :password, :string, :default => nil
     config_param :database, :string, :default => nil
     config_param :tablename, :string, :default => nil
-    config_param :columns, :string, :default => nil
+    # config_param :columns, :string, :default => nil
+    config_param :key_names, :string, :default => nil
+    config_param :column_names, :string, :default => nil
     config_param :encoding, :string, :default => 'utf8'
 
     def configure(conf)
       super
-      if @database.nil? || @tablename.nil?
-        raise Fluent::ConfigError, "database and tablename is required!"
+      if @database.nil? || @tablename.nil? || @column_names.nil?
+        raise Fluent::ConfigError, "database and tablename and column_names is required."
       end
 
-      if (!@columns.nil?)
-        @columns = @columns.split(",")
+      @key_names = @key_names.nil? ? @column_names.split(',') : @key_names.split(',')
+      unless @column_names.split(',').count == @key_names.count
+        raise Fluent::ConfigError, "It does not take the integrity of the key_names and column_names."
       end
     end
 
@@ -48,17 +51,11 @@ module Fluent
     end
 
     def write(chunk)
-      tmp = Tempfile.new("loaddata")
+      tmp = Tempfile.new("mysql-loaddata")
       keys = nil
       chunk.msgpack_each { |record|
-        # keyの取得は初回のみ
-        if keys.nil?
-          # columnsが指定されている場合はそっちを有効にする
-          keys = @columns.nil? ? record.keys : @columns
-        end
-
         values = []
-        keys.each{ |key|
+        @key_names.each{ |key|
           values << record[key]
         }
 
@@ -66,7 +63,7 @@ module Fluent
       }
       tmp.close
 
-      query = QUERY_TEMPLATE % ([tmp.path, @tablename, keys.join(",")])
+      query = QUERY_TEMPLATE % ([tmp.path, @tablename, @column_names])
 
       conn = get_connection
       conn.query(query)
@@ -74,6 +71,7 @@ module Fluent
     end
 
     private
+
     def get_connection
         Mysql2::Client.new({
             :host => @host,
