@@ -1,7 +1,7 @@
 # coding: utf-8
 Gem::Specification.new do |spec|
   spec.name          = "fluent-plugin-mysql-load"
-  spec.version       = "0.0.1"
+  spec.version       = "0.0.2"
   spec.authors       = ["Fukui ReTu"]
   spec.email         = ["s0232101@gmail.com"]
   spec.description   = %q{BufferedOutput plugin to mysql import}
