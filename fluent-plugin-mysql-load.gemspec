@@ -4,8 +4,8 @@ Gem::Specification.new do |spec|
   spec.version       = "0.0.1"
   spec.authors       = ["Fukui ReTu"]
   spec.email         = ["s0232101@gmail.com"]
-  spec.description   = %q{Output filter plugin to mysql import}
-  spec.summary       = %q{Output filter plugin to mysql import}
+  spec.description   = %q{BufferedOutput plugin to mysql import}
+  spec.summary       = %q{BufferedOutput plugin to mysql import}
   spec.homepage      = "https://github.com/fukuiretu/fluent-plugin-mysql-load"
   spec.license       = "APL2.0"
 
