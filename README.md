@@ -207,7 +207,7 @@ And Logging of Fluentd Parameters...(>=v0.10.43)
 
 # ChangeLog
 
-See [CHANGELOG.md](https://github.com/fukuiretu/fluent-plugin-mysql-load/CHANGELOG.md) for details.
+See [CHANGELOG.md](https://github.com/fukuiretu/fluent-plugin-mysql-load/blob/master/CHANGELOG.md) for details.
 
 # Copyright
 Copyright:: Copyright (c) 2014- Fukui ReTu License:: Apache License, Version 2.0
