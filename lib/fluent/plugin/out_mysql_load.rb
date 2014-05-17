@@ -21,7 +21,6 @@ module Fluent
     config_param :password, :string, :default => nil
     config_param :database, :string, :default => nil
     config_param :tablename, :string, :default => nil
-    # config_param :columns, :string, :default => nil
     config_param :key_names, :string, :default => nil
     config_param :column_names, :string, :default => nil
     config_param :encoding, :string, :default => 'utf8'
@@ -47,27 +46,26 @@ module Fluent
     end
 
     def format(tag, time, record)
-      record.to_msgpack
+      values = @key_names.map { |k|
+        k == '${time}' ? Time.at(time).strftime('%Y-%m-%d %H:%M:%S') : record[k]
+      }
+      values.to_msgpack
     end
 
     def write(chunk)
+      data_count = 0
       tmp = Tempfile.new("mysql-loaddata")
-      keys = nil
       chunk.msgpack_each { |record|
-        values = []
-        @key_names.each{ |key|
-          values << record[key]
-        }
-
-        tmp.write values.join("\t") + "\n"
+        tmp.write record.join("\t") + "\n"
+        data_count += 1
       }
       tmp.close
 
-      query = QUERY_TEMPLATE % ([tmp.path, @tablename, @column_names])
-
       conn = get_connection
-      conn.query(query)
+      conn.query(QUERY_TEMPLATE % ([tmp.path, @tablename, @column_names]))
       conn.close
+
+      log.info "number that is registered in the \"%s:%s\" table is %d" % ([@database, @tablename, data_count])
     end
 
     private
@@ -79,7 +77,8 @@ module Fluent
             :username => @username,
             :password => @password,
             :database => @database,
-            :encoding => @encoding
+            :encoding => @encoding,
+            :local_infile => true
           })
     end
   end

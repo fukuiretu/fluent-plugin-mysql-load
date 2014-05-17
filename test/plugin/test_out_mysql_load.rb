@@ -105,7 +105,7 @@ class MysqlLoadOutputTest < Test::Unit::TestCase
         encoding sjis
       ]
     end
-    
+
     assert_raise(Fluent::ConfigError) do
       create_driver %[
         host abcde
@@ -122,15 +122,22 @@ class MysqlLoadOutputTest < Test::Unit::TestCase
   end
 
   def test_format
-    d = create_driver
+    d = create_driver %[
+      host localhost
+      port 3306
+      username root
+      database fluentd
+      tablename test
+      column_names id,txt,txt2
+    ]
 
     d.emit({"id"=>1, "txt" => "hoge", "txt2" => "foo"})
     d.emit({"id"=>2, "txt" => "hoge2", "txt2" => "foo2"})
 
-    d.expect_format({"id"=>1, "txt" => "hoge", "txt2" => "foo"}.to_msgpack)
-    d.expect_format({"id"=>2, "txt" => "hoge2", "txt2" => "foo2"}.to_msgpack)
+    d.expect_format([1, "hoge", "foo"].to_msgpack)
+    d.expect_format([2, "hoge2", "foo2"].to_msgpack)
 
-    # d.run
+    d.run
   end
 
   def test_write
