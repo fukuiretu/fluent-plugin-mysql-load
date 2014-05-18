@@ -5,7 +5,7 @@ Features:
 - Add `key_names` option parameter
 - Add `column_names`, Remove `columns` parameters
 
-※ Please note that it is not compatible with v.0.0.1
+※ Please note that it is not compatible with v0.0.1
 
 
 # 0.0.1 (2014/05/05)
