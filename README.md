@@ -21,6 +21,7 @@ Internal processing uses the **"LOAD DATA LOCAL INFILE"**.
   username taro
   password abcdefg
   database fluentd
+  tablename test
   column_names id,txt,txt2,txt3,created_at
 
   buffer_type file
@@ -67,6 +68,7 @@ mysql> select * from test;
   username taro
   password abcdefg
   database fluentd
+  tablename test
   key_names dummy1,dummy2,dummy3,create_d
   column_names txt,txt2,txt3,created_at
 
@@ -114,6 +116,7 @@ mysql> select * from test;
   username taro
   password abcdefg
   database fluentd
+  tablename test
   key_names dummy1,dummy2,dummy3,${time}
   column_names txt,txt2,txt3,created_at
 
