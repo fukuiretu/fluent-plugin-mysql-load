@@ -1,5 +1,7 @@
-# fluent-plugin-mysql-load, a plugin for [Fluentd](http://fluentd.org) [![Build Status](https://travis-ci.org/fukuiretu/fluent-plugin-mysql-load.svg?branch=master)](https://travis-ci.org/fukuiretu/fluent-plugin-mysql-load)
+# fluent-plugin-mysql-load, a plugin for [Fluentd](http://fluentd.org)
 
+[![Build Status](https://travis-ci.org/fukuiretu/fluent-plugin-mysql-load.svg?branch=master)](https://travis-ci.org/fukuiretu/fluent-plugin-mysql-load)
+[![Gem Version](https://badge.fury.io/rb/fluent-plugin-mysql-load.svg)](http://badge.fury.io/rb/fluent-plugin-mysql-load)
 
 # Overview
 
