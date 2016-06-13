@@ -23,6 +23,7 @@ Internal processing uses the **"LOAD DATA LOCAL INFILE"**.
   username taro
   password abcdefg
   database fluentd
+  socket /tmp/mysql.sock 
   tablename test
   column_names id,txt,txt2,txt3,created_at
 
@@ -70,6 +71,7 @@ mysql> select * from test;
   username taro
   password abcdefg
   database fluentd
+  socket /tmp/mysql.sock 
   tablename test
   key_names dummy1,dummy2,dummy3,create_d
   column_names txt,txt2,txt3,created_at
@@ -118,6 +120,7 @@ mysql> select * from test;
   username taro
   password abcdefg
   database fluentd
+  socket /tmp/mysql.sock 
   tablename test
   key_names dummy1,dummy2,dummy3,${time}
   column_names txt,txt2,txt3,created_at
@@ -178,6 +181,10 @@ mysql> select * from test;
 * **database** (required)
 
   Set the database of MySQL Server.
+
+* **socket** (option)
+
+  Set the socket file location of MySQL Server.The default is ""(blank).
 
 * **tablename** (required)
 
