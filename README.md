@@ -184,7 +184,7 @@ mysql> select * from test;
 
 * **socket** (option)
 
-  Set the socket file location of MySQL Server.The default is "/tmp/mysql.sock".
+  Set the socket file location of MySQL Server.The default is ""(blank).
 
 * **tablename** (required)
 
