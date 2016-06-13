@@ -20,7 +20,7 @@ module Fluent
     config_param :username, :string, :default => 'root'
     config_param :password, :string, :default => nil
     config_param :database, :string, :default => nil
-    config_param :socket, :string, :default => '/tmp/mysql.sock'
+    config_param :socket, :string, :default => nil
     config_param :tablename, :string, :default => nil
     config_param :key_names, :string, :default => nil
     config_param :column_names, :string, :default => nil
